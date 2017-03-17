@@ -1,12 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace mergeCSVfile
@@ -55,7 +48,11 @@ namespace mergeCSVfile
                     file1.CopyTo(outFile, 0);
                     file2.CopyTo(outFile, file1.Length);
                     Array.Sort(outFile);
-                    File.WriteAllLines("MergedFile.csv", outFile);
+                    if(textBox3.Text == ""){
+                        File.WriteAllLines("MergedFile.csv", outFile);
+                    }else{
+                        File.WriteAllLines(textBox3.Text + ".csv", outFile);
+                    }
                     label3.Text = "OK!";
                 }
                 catch(Exception ex)
