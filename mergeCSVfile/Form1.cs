@@ -65,17 +65,49 @@ namespace mergeCSVfile
 
                     if (saveFileDialog1.ShowDialog() == DialogResult.OK)
                     {
-                        string[] file1 = File.ReadAllLines(textBox1.Text);
-                        string[] file2 = File.ReadAllLines(textBox2.Text);
-                        string[] outFile = new string[file1.Length + file2.Length];
+                        string[] baseFile = File.ReadAllLines(textBox1.Text);
+                        string[] addtionalContentFile = File.ReadAllLines(textBox2.Text);
+                        string[] outFile = new string[baseFile.Length + addtionalContentFile.Length];
 
-                        file1.CopyTo(outFile, 0);
-                        file2.CopyTo(outFile, file1.Length);
+                        //Merging & Sorting
+                        baseFile.CopyTo(outFile, 0);
+                        addtionalContentFile.CopyTo(outFile, baseFile.Length);
                         Array.Sort(outFile);
 
-                        File.WriteAllLines("duplicates.txt", GetDuplicates(outFile).ToArray());
+                        //DUPLICATES HANDLING
+                        //Saving occurrences
+                        string[] duplicates = GetDuplicates(outFile).ToArray();
+
+                        if (duplicates.Length > 0)
+                        {
+                            saveFileDialog2.FileName = "duplicates.txt";
+                            saveFileDialog2.DefaultExt = ".txt";
+
+                            //Prompt about duplicates
+                            DialogResult dr = MessageBox.Show("There were some duplicated lines on the files.\n"+
+                                                "Click OK to save them on another file or Cancel to continue without save.",
+                                                "Warning!",
+                                                MessageBoxButtons.OKCancel,
+                                                MessageBoxIcon.Exclamation,
+                                                MessageBoxDefaultButton.Button1);
+                            if (dr == DialogResult.OK)
+                            {
+                                if (saveFileDialog2.ShowDialog() == DialogResult.OK)
+                                {
+                                    File.WriteAllLines(saveFileDialog2.FileName, duplicates);
+                                }
+                                else
+                                {
+                                    //Cancels whole process
+                                    return;
+                                }
+                            }
+                        }
+
+                        //Removing duplicates
                         outFile = outFile.Distinct(StringComparer.OrdinalIgnoreCase).ToArray();
 
+                        //Saving output file
                         File.WriteAllLines(saveFileDialog1.FileName, outFile);
 
                         label3.Text = "OK!";
@@ -83,7 +115,7 @@ namespace mergeCSVfile
                 }
                 catch(Exception ex)
                 {
-                    label3.Text = "ERRO!";
+                    label3.Text = "ERROR!";
                     MessageBox.Show(ex.Message,
                         "Warning!",
                         MessageBoxButtons.OK,
@@ -93,7 +125,7 @@ namespace mergeCSVfile
             }
             else
             {
-                MessageBox.Show("Select two valid files.", 
+                MessageBox.Show("Select two valid files.",
                         "Warning!",
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Exclamation,

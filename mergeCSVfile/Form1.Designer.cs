@@ -44,6 +44,7 @@ namespace mergeCSVfile
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            this.saveFileDialog2 = new System.Windows.Forms.SaveFileDialog();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.SuspendLayout();
@@ -88,18 +89,18 @@ namespace mergeCSVfile
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(15, 9);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(84, 13);
+            this.label1.Size = new System.Drawing.Size(47, 13);
             this.label1.TabIndex = 4;
-            this.label1.Text = "Arquivo de base";
+            this.label1.Text = "Base file";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(15, 88);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(151, 13);
+            this.label2.Size = new System.Drawing.Size(108, 13);
             this.label2.TabIndex = 5;
-            this.label2.Text = "Arquivo de conteúdo adicional";
+            this.label2.Text = "Additional content file";
             // 
             // label3
             // 
@@ -205,6 +206,7 @@ namespace mergeCSVfile
         private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
+        private System.Windows.Forms.SaveFileDialog saveFileDialog2;
     }
 }
 
