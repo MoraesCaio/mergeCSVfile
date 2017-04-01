@@ -38,6 +38,22 @@ namespace mergeCSVfile
             }
         }
 
+        private List<string> GetDuplicates(string[] str1)
+        {
+            List<string> duplicates = new List<string>();
+            for (int i = 0; i < str1.Length; i++)
+            {
+                for (int j = i + 1; j < str1.Length; j++)
+                {
+                    if(String.Compare(str1[i], str1[j], true) == 0)
+                    {
+                        duplicates.Add(str1[i]);
+                    }
+                }
+            }
+            return duplicates;
+        }
+
         private void button3_Click(object sender, EventArgs e)
         {
             if(File.Exists(textBox1.Text) && File.Exists(textBox2.Text))
@@ -57,6 +73,7 @@ namespace mergeCSVfile
                         file2.CopyTo(outFile, file1.Length);
                         Array.Sort(outFile);
 
+                        File.WriteAllLines("duplicates.txt", GetDuplicates(outFile).ToArray());
                         outFile = outFile.Distinct(StringComparer.OrdinalIgnoreCase).ToArray();
 
                         File.WriteAllLines(saveFileDialog1.FileName, outFile);
