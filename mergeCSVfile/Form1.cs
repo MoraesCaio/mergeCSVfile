@@ -57,6 +57,8 @@ namespace mergeCSVfile
                         file2.CopyTo(outFile, file1.Length);
                         Array.Sort(outFile);
 
+                        outFile = outFile.Distinct(StringComparer.OrdinalIgnoreCase).ToArray();
+
                         File.WriteAllLines(saveFileDialog1.FileName, outFile);
 
                         label3.Text = "OK!";
