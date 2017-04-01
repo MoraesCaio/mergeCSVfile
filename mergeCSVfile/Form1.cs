@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace mergeCSVfile
@@ -42,18 +44,23 @@ namespace mergeCSVfile
             {
                 try
                 {
-                    string[] file1 = File.ReadAllLines(textBox1.Text);
-                    string[] file2 = File.ReadAllLines(textBox2.Text);
-                    string[] outFile = new string[file1.Length + file2.Length];
-                    file1.CopyTo(outFile, 0);
-                    file2.CopyTo(outFile, file1.Length);
-                    Array.Sort(outFile);
-                    if(textBox3.Text == ""){
-                        File.WriteAllLines("MergedFile.csv", outFile);
-                    }else{
-                        File.WriteAllLines(textBox3.Text + ".csv", outFile);
+                    saveFileDialog1.FileName = Path.GetFileName(textBox1.Text);
+                    saveFileDialog1.DefaultExt = Path.GetExtension(textBox1.Text);
+
+                    if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+                    {
+                        string[] file1 = File.ReadAllLines(textBox1.Text);
+                        string[] file2 = File.ReadAllLines(textBox2.Text);
+                        string[] outFile = new string[file1.Length + file2.Length];
+
+                        file1.CopyTo(outFile, 0);
+                        file2.CopyTo(outFile, file1.Length);
+                        Array.Sort(outFile);
+
+                        File.WriteAllLines(saveFileDialog1.FileName, outFile);
+
+                        label3.Text = "OK!";
                     }
-                    label3.Text = "OK!";
                 }
                 catch(Exception ex)
                 {
